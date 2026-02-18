@@ -1,0 +1,67 @@
+id: "05"
+title: "API Integration for Portfolio Dashboard"
+difficulty: medium
+persona: "Frontend developer — building a DTF portfolio dashboard"
+
+prompt: |
+  What API endpoints list all DTFs across supported chains, what fields are
+  returned, and are there tooling gotchas I should know about?
+
+minimum_access_mode: llms_full_txt
+
+ground_truth:
+  required_facts:
+    - id: F1
+      fact: "Base URL is https://api.reserve.org"
+      source: "content/full/08-api.md"
+      in_llms_txt: true
+      in_llms_full_txt: true
+    - id: F2
+      fact: "GET /discover/dtf endpoint with chainId (required) and limit (optional) parameters"
+      source: "content/full/08-api.md § GET /discover/dtf"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F3
+      fact: "Discover endpoint supports Ethereum (chainId 1) and Base (chainId 8453)"
+      source: "content/full/08-api.md § GET /discover/dtf"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F4
+      fact: "Response includes: address, name, symbol, marketCap, price, basket[], performance[], brand"
+      source: "content/full/08-api.md § GET /discover/dtf"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F5
+      fact: "Tooling gotcha: HTML-to-markdown converters and AI summarizers lose numeric precision, truncate results, and break array structure"
+      source: "content/full/08-api.md § Tooling Note"
+      in_llms_txt: true
+      in_llms_full_txt: true
+    - id: F6
+      fact: "A swap/zapper endpoint also exists at GET /api/zapper/{chainId}/swap"
+      source: "content/full/08-api.md § GET /api/zapper/{chainId}/swap"
+      in_llms_txt: true
+      in_llms_full_txt: true
+    - id: F7
+      fact: "Swap endpoint supports BSC (chainId 56) in addition to Ethereum and Base"
+      source: "content/full/08-api.md § GET /api/zapper/{chainId}/swap"
+      in_llms_txt: false
+      in_llms_full_txt: true
+
+  bonus_facts:
+    - id: B1
+      fact: "Prefer curl + jq or native HTTP client for reliable structured data extraction"
+      source: "content/full/08-api.md § Tooling Note"
+    - id: B2
+      fact: "basket[].weight is returned as a string (not number)"
+      source: "content/full/08-api.md § GET /discover/dtf"
+
+  disqualifying_errors:
+    - "The API supports Arbitrum for the discover endpoint"
+    - "The discover endpoint returns data for all chains in a single call"
+    - "DTF basket weights are returned as numbers"
+
+navigation:
+  ideal_path:
+    llms_txt: ["Read llms.txt § Reserve API"]
+    llms_full_txt: ["Read llms-full.txt § Reserve API"]
+    source_repo: ["Read content/full/08-api.md", "Read content/sections/05b-api.md"]

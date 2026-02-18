@@ -1,0 +1,73 @@
+id: "08"
+title: "Cross-Chain Deployment Comparison"
+difficulty: medium
+persona: "Protocol strategist — evaluating multi-chain deployment differences"
+
+prompt: |
+  Which DTF types are deployed on which chains, what parameters differ between
+  mainnet and L2, and which chains does the Reserve API support?
+
+minimum_access_mode: llms_full_txt
+
+ground_truth:
+  required_facts:
+    - id: F1
+      fact: "Yield DTFs are deployed on Ethereum, Base, and Arbitrum"
+      source: "content/full/00-overview.md § Yield DTFs"
+      in_llms_txt: true
+      in_llms_full_txt: true
+    - id: F2
+      fact: "Index DTFs are deployed on Ethereum and Base"
+      source: "content/full/00-overview.md § Index DTFs"
+      in_llms_txt: true
+      in_llms_full_txt: true
+    - id: F3
+      fact: "minTradeVolume: $1k mainnet, $100 L2s"
+      source: "content/full/06-governance-and-risk.md § Trading"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F4
+      fact: "maxTradeSlippage: 1% mainnet, 0.5% L2s"
+      source: "content/full/06-governance-and-risk.md § Trading"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F5
+      fact: "dutchAuctionLength: 30 minutes mainnet, 15 minutes L2s"
+      source: "content/full/06-governance-and-risk.md § Trading"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F6
+      fact: "Discover API supports Ethereum (1) and Base (8453)"
+      source: "content/full/08-api.md § GET /discover/dtf"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F7
+      fact: "Swap API additionally supports BSC (56)"
+      source: "content/full/08-api.md § GET /api/zapper/{chainId}/swap"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F8
+      fact: "withdrawalLeak: 5% mainnet, 1% L2s"
+      source: "content/full/06-governance-and-risk.md § Staking"
+      in_llms_txt: false
+      in_llms_full_txt: true
+
+  bonus_facts:
+    - id: B1
+      fact: "batchAuctionLength is 15 minutes (same across chains)"
+      source: "content/full/06-governance-and-risk.md § Trading"
+    - id: B2
+      fact: "warmupPeriod is 15 minutes (same across chains)"
+      source: "content/full/06-governance-and-risk.md § Safety"
+
+  disqualifying_errors:
+    - "Index DTFs are deployed on Arbitrum"
+    - "The Discover API supports Arbitrum"
+    - "All parameters are the same on mainnet and L2"
+    - "Yield DTFs are only on Ethereum"
+
+navigation:
+  ideal_path:
+    llms_txt: ["Read llms.txt (chain names visible in section headers)", "Follow links for parameter details"]
+    llms_full_txt: ["Read llms-full.txt § Overview", "Read llms-full.txt § Governance and Risk § Key Governance Parameters", "Read llms-full.txt § Reserve API"]
+    source_repo: ["Read content/full/00-overview.md", "Read content/full/06-governance-and-risk.md", "Read content/full/08-api.md"]

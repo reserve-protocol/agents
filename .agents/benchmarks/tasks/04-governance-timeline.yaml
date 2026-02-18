@@ -1,0 +1,77 @@
+id: "04"
+title: "Governance Proposal Timeline"
+difficulty: easy
+persona: "DAO participant — planning a governance proposal for a Yield DTF"
+
+prompt: |
+  What is the end-to-end timeline for a Yield DTF governance proposal, what are
+  the voting requirements, and how does Index DTF governance differ?
+
+minimum_access_mode: llms_full_txt
+
+ground_truth:
+  required_facts:
+    - id: F1
+      fact: "Snapshot delay: 2 days (voting power captured after this delay)"
+      source: "content/full/06-governance-and-risk.md § Yield DTF Governance"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F2
+      fact: "Voting period: 3 days"
+      source: "content/full/06-governance-and-risk.md § Yield DTF Governance"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F3
+      fact: "Timelock delay: 3 days"
+      source: "content/full/06-governance-and-risk.md § Yield DTF Governance"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F4
+      fact: "Total end-to-end: ~8 days"
+      source: "content/full/06-governance-and-risk.md § Yield DTF Governance"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F5
+      fact: "Proposal threshold: 0.01% of StRSR supply"
+      source: "content/full/06-governance-and-risk.md § Yield DTF Governance"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F6
+      fact: "Quorum: 10% of StRSR supply (FOR + ABSTAIN votes count)"
+      source: "content/full/06-governance-and-risk.md § Yield DTF Governance"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F7
+      fact: "Guardian address has cancellation/veto power in the timelock"
+      source: "content/full/06-governance-and-risk.md § Yield DTF Governance"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F8
+      fact: "Index DTFs use a two-governor system: Slow Governor (admin) and Fast Governor (rebalance manager)"
+      source: "content/full/06-governance-and-risk.md § Index DTF Governance"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F9
+      fact: "Both Index DTF governors use the StakingVault as the voting token"
+      source: "content/full/06-governance-and-risk.md § Index DTF Governance"
+      in_llms_txt: false
+      in_llms_full_txt: true
+
+  bonus_facts:
+    - id: B1
+      fact: "If all RSR is seized, proposals created before that event cannot be queued or executed"
+      source: "content/full/06-governance-and-risk.md § Yield DTF Governance"
+    - id: B2
+      fact: "StRSR.stake() remains active during freezes so honest RSR can vote against malicious proposals"
+      source: "content/full/06-governance-and-risk.md § Yield DTF Governance"
+
+  disqualifying_errors:
+    - "Yield DTFs use a multisig for governance"
+    - "Index DTFs have a single governor"
+    - "AGAINST votes count toward quorum"
+
+navigation:
+  ideal_path:
+    llms_txt: ["Read llms.txt", "Follow link to Deployment Variables or Governance documentation"]
+    llms_full_txt: ["Read llms-full.txt § Governance and Risk"]
+    source_repo: ["Read content/full/06-governance-and-risk.md"]

@@ -1,0 +1,81 @@
+id: "03"
+title: "Writing a Collateral Plugin"
+difficulty: hard
+persona: "DeFi developer — building a new yield-bearing collateral plugin for Reserve"
+
+prompt: |
+  What are the critical invariants, base contracts to extend, exchange rate
+  requirements, and unsupported token types when writing a Reserve collateral plugin?
+
+minimum_access_mode: llms_full_txt
+
+ground_truth:
+  required_facts:
+    - id: F1
+      fact: "refPerTok() must be non-decreasing — any decrease triggers immediate permanent DISABLED status"
+      source: "content/full/04-collateral-plugins.md § Exchange Rates § refPerTok()"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F2
+      fact: "refresh() must never revert — errors should change status to DISABLED, not throw"
+      source: "content/full/04-collateral-plugins.md § Critical Properties"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F3
+      fact: "DISABLED is permanent — once DISABLED, a collateral can never return to SOUND"
+      source: "content/full/04-collateral-plugins.md § Collateral Status"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F4
+      fact: "Extend FiatCollateral (non-appreciating) or AppreciatingFiatCollateral (yield-bearing)"
+      source: "content/full/04-collateral-plugins.md § Implementation"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F5
+      fact: "Override three functions: tryPrice(), refPerTok(), and targetPerRef()"
+      source: "content/full/04-collateral-plugins.md § Implementation"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F6
+      fact: "Revenue hiding buffer of 1e-6% (minimum) absorbs minor refPerTok() fluctuations from rounding"
+      source: "content/full/04-collateral-plugins.md § Revenue Hiding"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F7
+      fact: "ERC777, native ETH, and direct rebasing tokens are not supported — rebasing tokens must be wrapped"
+      source: "content/full/04-collateral-plugins.md § Critical Properties"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F8
+      fact: "Three collateral statuses: SOUND (normal), IFFY (potential problem, temporary), DISABLED (permanent default)"
+      source: "content/full/04-collateral-plugins.md § Collateral Status"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F9
+      fact: "Asset models any ERC20 (pricing + trading); Collateral is a subtype that adds exchange rates and status for RToken backing"
+      source: "content/full/04-collateral-plugins.md § Asset vs Collateral"
+      in_llms_txt: false
+      in_llms_full_txt: true
+
+  bonus_facts:
+    - id: B1
+      fact: "tryPrice() is called via try-catch to prevent refresh() from reverting"
+      source: "content/full/04-collateral-plugins.md § Implementation"
+    - id: B2
+      fact: "Revenue hiding does NOT apply to price() — prices should reflect true market value"
+      source: "content/full/04-collateral-plugins.md § Revenue Hiding"
+    - id: B3
+      fact: "Submit plugins as PRs to contracts/plugins/assets/<protocol>/ with tests at test/individual-collateral/<protocol>/"
+      source: "content/full/04-collateral-plugins.md § Submission"
+
+  disqualifying_errors:
+    - "refPerTok() can decrease as long as it recovers"
+    - "Collateral plugins can use native ETH directly"
+    - "DISABLED collateral can be re-enabled by governance"
+    - "refresh() can revert safely since callers handle the error"
+
+navigation:
+  ideal_path:
+    llms_txt: ["Read llms.txt", "Follow link to Collateral Plugins or Writing Collateral Plugins"]
+    llms_full_txt: ["Read llms-full.txt § Collateral Plugins"]
+    source_repo: ["Read content/full/04-collateral-plugins.md"]

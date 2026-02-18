@@ -1,0 +1,86 @@
+id: "02"
+title: "Dutch Auction MEV Strategy"
+difficulty: hard
+persona: "MEV searcher — building an auction bot for Reserve Dutch auctions"
+
+prompt: |
+  How do Reserve Dutch auctions work — price curve, when to bid, risks, and
+  what contracts/functions should I call for both DTF types?
+
+minimum_access_mode: llms_full_txt
+
+ground_truth:
+  required_facts:
+    - id: F1
+      fact: "Two-phase price curve: geometric phase (first 40%) and linear phase (last 60%)"
+      source: "content/full/05-mev.md § Price Curve"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F2
+      fact: "Price starts at ~1000x the best plausible price in the geometric phase"
+      source: "content/full/05-mev.md § Price Curve"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F3
+      fact: "A bid clearing in the geometric phase triggers trade violation — Dutch auctions are disabled for that trading pair"
+      source: "content/full/05-mev.md § Trade Violation Fallback"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F4
+      fact: "First bidder wins — if someone else bids first, bid() reverts"
+      source: "content/full/05-mev.md § DutchTrade"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F5
+      fact: "bidWithCallback enables flash-loan-like patterns — contract receives sell tokens first, then must return buy tokens"
+      source: "content/full/05-mev.md § DutchTrade"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F6
+      fact: "Monitor Broker contracts for TradeStarted events"
+      source: "content/full/05-mev.md § Dutch Auction Bidding (Yield DTFs)"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F7
+      fact: "trade.KIND() returns 0 for DutchTrade, 1 for GnosisTrade"
+      source: "content/full/05-mev.md § Dutch Auction Bidding (Yield DTFs)"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F8
+      fact: "Key view functions: status() (active if 1), lot() (sell quantity), bidAmount(timestamp) (buy cost)"
+      source: "content/full/05-mev.md § DutchTrade"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F9
+      fact: "Default auction duration: 30 minutes on mainnet, 15 minutes on L2s"
+      source: "content/full/03-system-design.md § Dutch Auctions (DutchTrade)"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F10
+      fact: "Index DTFs use getBid(auctionId, sellToken, buyToken, timestamp, maxSellAmount) with different parameters than Yield DTF auctions"
+      source: "content/full/05-mev.md § Index DTF Auctions"
+      in_llms_txt: false
+      in_llms_full_txt: true
+
+  bonus_facts:
+    - id: B1
+      fact: "Best plausible price = sell token high price / buy token low price"
+      source: "content/full/05-mev.md § Price Curve"
+    - id: B2
+      fact: "Set tight ERC20 approval to exactly bidAmount() for the target block to mitigate reorg risk"
+      source: "content/full/05-mev.md § DutchTrade"
+    - id: B3
+      fact: "Re-enabling Dutch auctions for a disabled pair requires governance action"
+      source: "content/full/05-mev.md § Trade Violation Fallback"
+
+  disqualifying_errors:
+    - "Reserve uses a standard ascending (English) auction"
+    - "Multiple bidders can win portions of the same auction"
+    - "The geometric phase is where most bids clear"
+    - "Dutch auctions have a flat price"
+
+navigation:
+  ideal_path:
+    llms_txt: ["Read llms.txt", "Follow link to MEV Guide"]
+    llms_full_txt: ["Read llms-full.txt § MEV Opportunities", "Read llms-full.txt § System Design § Dutch Auctions"]
+    source_repo: ["Read content/full/05-mev.md", "Read content/full/03-system-design.md § Auction Types"]

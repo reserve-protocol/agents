@@ -1,0 +1,82 @@
+id: "07"
+title: "Rebalancing Trade Priority"
+difficulty: hard
+persona: "Quantitative analyst — modeling Yield DTF rebalancing behavior"
+
+prompt: |
+  Describe the complete trade selection algorithm for Yield DTF rebalancing —
+  what gets sold/bought first, how does the basket range work, and what happens
+  when the protocol runs out of tradeable assets?
+
+minimum_access_mode: llms_full_txt
+
+ground_truth:
+  required_facts:
+    - id: F1
+      fact: "Sell priority order: DISABLED collateral first, then SOUND, then IFFY last (IFFY may recover)"
+      source: "content/full/07-rebalancing.md § Trade Selection"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F2
+      fact: "basketRange.top is the optimistic estimate — assumes best prices, zero slippage, no dust loss"
+      source: "content/full/07-rebalancing.md § The BU Price Band"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F3
+      fact: "basketRange.bottom is the pessimistic estimate — assumes worst prices, full maxTradeSlippage, dust loss"
+      source: "content/full/07-rebalancing.md § The BU Price Band"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F4
+      fact: "Asymmetric measurement: surplus is measured relative to basketRange.top, deficit relative to basketRange.bottom"
+      source: "content/full/07-rebalancing.md § Trade Selection"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F5
+      fact: "No double-trading of SOUND assets: capital traded from A to B should not later be traded to C"
+      source: "content/full/07-rebalancing.md § Trade Selection"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F6
+      fact: "Largest trades first (by UoA value)"
+      source: "content/full/07-rebalancing.md § Trade Selection"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F7
+      fact: "Trade must exceed minTradeVolume and not exceed maxTradeVolume"
+      source: "content/full/07-rebalancing.md § Trade Selection"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F8
+      fact: "Haircut as last resort: if protocol runs out of tradeable assets, it reduces RToken.basketsNeeded to match current holdings"
+      source: "content/full/07-rebalancing.md § Haircut"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F9
+      fact: "Two sizing methods: prepareTradeToCoverDeficit (primary, targets buy amount) and prepareTradeSell (secondary, targets sell amount for unpriced/IFFY/DISABLED)"
+      source: "content/full/07-rebalancing.md § Trade Sizing"
+      in_llms_txt: false
+      in_llms_full_txt: true
+
+  bonus_facts:
+    - id: B1
+      fact: "The spread between top and bottom narrows with each completed trade"
+      source: "content/full/07-rebalancing.md § The BU Price Band"
+    - id: B2
+      fact: "For unpriced assets, prepareTradeSell sells the entire balance"
+      source: "content/full/07-rebalancing.md § Trade Sizing"
+    - id: B3
+      fact: "Haircut restores the system to a collateralized state so normal operation can resume"
+      source: "content/full/07-rebalancing.md § Haircut"
+
+  disqualifying_errors:
+    - "IFFY collateral is sold before SOUND collateral"
+    - "Surplus and deficit are both measured relative to the same basket range bound"
+    - "The protocol mints new tokens when it runs out of tradeable assets"
+    - "Trades are executed in random order"
+
+navigation:
+  ideal_path:
+    llms_txt: ["Read llms.txt", "Follow link to Recollateralization documentation"]
+    llms_full_txt: ["Read llms-full.txt § Rebalancing § Yield DTF Rebalancing"]
+    source_repo: ["Read content/full/07-rebalancing.md"]

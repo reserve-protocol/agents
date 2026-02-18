@@ -1,0 +1,76 @@
+id: "09"
+title: "RSR Staking Risk Assessment"
+difficulty: medium
+persona: "RSR holder — evaluating staking risk/reward tradeoffs"
+
+prompt: |
+  What do I earn by staking RSR, what can I lose, how long is my capital locked,
+  and how does RSR staking differ between Yield DTFs and Index DTFs?
+
+minimum_access_mode: llms_full_txt
+
+ground_truth:
+  required_facts:
+    - id: F1
+      fact: "Default revenue split: 60% to RSR stakers, 40% to RToken holders"
+      source: "content/full/02-yield-dtfs.md § Revenue Distribution"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F2
+      fact: "Unstaking delay: 2 weeks (default)"
+      source: "content/full/06-governance-and-risk.md § Staking"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F3
+      fact: "RSR can be seized on collateral default to recapitalize the system"
+      source: "content/full/02-yield-dtfs.md § RSR Overcollateralization"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F4
+      fact: "Revenue is traded for RSR and distributed through StRSR's reward mechanism"
+      source: "content/full/02-yield-dtfs.md § Revenue Distribution"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F5
+      fact: "Index DTFs: RSR is staked in StakingVault for governance only — no overcollateralization"
+      source: "content/full/00-overview.md § RSR (Reserve Rights)"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F6
+      fact: "Supply throttles: issuance max(2M RToken, 10% of supply)/hr, redemption max(2.5M RToken, 12.5% of supply)/hr"
+      source: "content/full/02-yield-dtfs.md § Supply Throttles"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F7
+      fact: "Collateral status early warning system: SOUND → IFFY → DISABLED progression"
+      source: "content/full/02-yield-dtfs.md § Collateral Default Handling"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F8
+      fact: "StRSR.stake() remains active during freezes so stakers can defend against malicious governance"
+      source: "content/full/06-governance-and-risk.md § Frozen"
+      in_llms_txt: false
+      in_llms_full_txt: true
+
+  bonus_facts:
+    - id: B1
+      fact: "Unstaking delay prevents front-running defaults by withdrawing before a known default event"
+      source: "content/full/02-yield-dtfs.md § RSR Overcollateralization"
+    - id: B2
+      fact: "Reward payout uses a configurable half-life (default 7 days)"
+      source: "content/full/06-governance-and-risk.md § Staking"
+    - id: B3
+      fact: "Redemption throttle must be set higher than the issuance throttle"
+      source: "content/full/02-yield-dtfs.md § Supply Throttles"
+
+  disqualifying_errors:
+    - "Staked RSR cannot be lost"
+    - "RSR staking on Index DTFs provides overcollateralization"
+    - "Revenue is distributed directly as collateral tokens to stakers"
+    - "There is no unstaking delay"
+
+navigation:
+  ideal_path:
+    llms_txt: ["Read llms.txt", "Follow links to RSR Overview and Yield DTF documentation"]
+    llms_full_txt: ["Read llms-full.txt § Yield DTFs § Revenue Distribution + RSR Overcollateralization", "Read llms-full.txt § Overview § RSR", "Read llms-full.txt § Governance and Risk"]
+    source_repo: ["Read content/full/02-yield-dtfs.md", "Read content/full/00-overview.md", "Read content/full/06-governance-and-risk.md"]

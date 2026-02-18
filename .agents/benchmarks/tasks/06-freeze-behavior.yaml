@@ -1,0 +1,83 @@
+id: "06"
+title: "Emergency Freeze Behavior"
+difficulty: medium
+persona: "Security researcher — auditing the protocol's emergency response mechanisms"
+
+prompt: |
+  What emergency states exist in the Reserve Protocol, what functionality stays
+  active in each state, and what are the freeze durations?
+
+minimum_access_mode: llms_full_txt
+
+ground_truth:
+  required_facts:
+    - id: F1
+      fact: "Three emergency states: Issuance-paused, Trading-paused, and Frozen"
+      source: "content/full/03-system-design.md § System States"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F2
+      fact: "Frozen: ERC20 transfers remain active (always work)"
+      source: "content/full/06-governance-and-risk.md § Frozen"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F3
+      fact: "Frozen: StRSR.stake() remains active so honest RSR can vote against malicious proposals"
+      source: "content/full/06-governance-and-risk.md § Frozen"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F4
+      fact: "Frozen: settleTrade() remains active to ensure Dutch auctions discover optimal prices"
+      source: "content/full/06-governance-and-risk.md § Frozen"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F5
+      fact: "Frozen: Furnace.melt() and StRSR.payoutRewards() remain active to maintain accurate exchange rates"
+      source: "content/full/06-governance-and-risk.md § Frozen"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F6
+      fact: "shortFreeze duration: 3 days"
+      source: "content/full/06-governance-and-risk.md § Freeze/Pause"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F7
+      fact: "longFreeze duration: 7 days, and a long freezer has 6 charges"
+      source: "content/full/06-governance-and-risk.md § Freeze/Pause"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F8
+      fact: "Roles: PAUSER (can pause), SHORT_FREEZER (short freeze, auto-expires), LONG_FREEZER (long freeze, for zero-days)"
+      source: "content/full/03-system-design.md § System States"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F9
+      fact: "Issuance-paused: only RToken.issue() is halted; redemption remains open"
+      source: "content/full/06-governance-and-risk.md § Issuance-Paused"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F10
+      fact: "Trading-paused: halts rebalancing, revenue trading, reward claiming, RSR unstaking; issuance and redemption stay active"
+      source: "content/full/06-governance-and-risk.md § Trading-Paused"
+      in_llms_txt: false
+      in_llms_full_txt: true
+
+  bonus_facts:
+    - id: B1
+      fact: "Freezing provides time for governance to push through a repair proposal for zero-day vulnerabilities"
+      source: "content/full/06-governance-and-risk.md § Frozen"
+    - id: B2
+      fact: "PAUSER tolerates false positives (low-risk action)"
+      source: "content/full/03-system-design.md § System States"
+
+  disqualifying_errors:
+    - "All functionality is halted during a freeze"
+    - "ERC20 transfers are disabled during a freeze"
+    - "Staking is disabled during a freeze"
+    - "There are only two emergency states"
+
+navigation:
+  ideal_path:
+    llms_txt: ["Read llms.txt", "Follow link to Pause & Freeze States documentation"]
+    llms_full_txt: ["Read llms-full.txt § System Design § System States", "Read llms-full.txt § Governance and Risk § Pause and Freeze States"]
+    source_repo: ["Read content/full/03-system-design.md", "Read content/full/06-governance-and-risk.md"]

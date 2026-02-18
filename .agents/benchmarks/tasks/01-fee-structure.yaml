@@ -1,0 +1,53 @@
+id: "01"
+title: "Index DTF Fee Structure"
+difficulty: easy
+persona: "Portfolio manager — evaluating launching an Index DTF"
+
+prompt: |
+  What fees does an Index DTF incur, what are the maximums, and what goes to the DAO?
+
+minimum_access_mode: llms_full_txt
+
+ground_truth:
+  required_facts:
+    - id: F1
+      fact: "Mint fee maximum is 5%"
+      source: "content/full/01-index-dtfs.md § Fees"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F2
+      fact: "TVL fee maximum is 10% annually"
+      source: "content/full/01-index-dtfs.md § Fees"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F3
+      fact: "DAO takes a minimum floor of 15 basis points on both fee types"
+      source: "content/full/01-index-dtfs.md § Fees"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F4
+      fact: "The 15 bps floor is adjustable — can be lowered by the DAO and set lower on a per-Folio basis"
+      source: "content/full/01-index-dtfs.md § Fees"
+      in_llms_txt: false
+      in_llms_full_txt: true
+    - id: F5
+      fact: "TVL fee is applied through share inflation"
+      source: "content/full/01-index-dtfs.md § Fees"
+      in_llms_txt: false
+      in_llms_full_txt: true
+
+  bonus_facts:
+    - id: B1
+      fact: "FolioDAOFeeRegistry manages the ecosystem-level fee"
+      source: "content/full/01-index-dtfs.md § Architecture"
+
+  disqualifying_errors:
+    - "Index DTFs charge a redemption fee"
+    - "The DAO fee is a fixed percentage that cannot be changed"
+    - "TVL fee is charged by deducting tokens from the basket"
+
+navigation:
+  ideal_path:
+    llms_txt: ["Read llms.txt", "Follow link to Index DTF Fees documentation"]
+    llms_full_txt: ["Read llms-full.txt § Index DTFs § Fees"]
+    source_repo: ["Read content/full/01-index-dtfs.md"]
