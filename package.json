@@ -1,0 +1,16 @@
+{
+  "name": "@reserve-protocol/agents",
+  "version": "0.1.0",
+  "description": "Hand-curated llms.txt and llms-full.txt for Reserve Protocol",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsx src/build.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.3",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

@@ -1,0 +1,3 @@
+# Reserve Protocol
+
+> Reserve builds Decentralized Token Folios (DTFs) — permissionless, tokenized indexes backed 1:1 by baskets of digital assets. There are two types: **Yield DTFs** (yield-bearing baskets with RSR overcollateralization, on Ethereum, Base, and Arbitrum) and **Index DTFs** (lightweight diversified portfolios supporting up to hundreds of tokens, on Ethereum and Base). All DTFs are ERC20-compliant, mintable and redeemable for their underlying assets, and governed on-chain.
