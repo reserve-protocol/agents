@@ -1,21 +1,55 @@
-# Reserve Protocol - llms.txt
+# Reserve Protocol — Agent Context
 
-Hand-curated [`llms.txt`](https://llmstxt.org/) and `llms-full.txt` files for the Reserve Protocol.
+Hand-curated [`llms.txt`](https://llmstxt.org/) and `llms-full.txt` for the Reserve Protocol, plus API documentation for agents operating in the Reserve ecosystem.
 
-## Structure
+## What's in here
 
-- `content/sections/` — Markdown fragments concatenated into `dist/llms.txt` (link index)
-- `content/full/` — Prose sections concatenated into `dist/llms-full.txt` (detailed reference)
-- `src/build.ts` — Build script
-- `dist/` — Generated output (gitignored)
+- **`content/sections/`** — Markdown fragments → `dist/llms.txt` (concise link index)
+- **`content/full/`** — Prose sections → `dist/llms-full.txt` (detailed reference)
+- **`AGENTS.md`** — Top-level context file for LLM agents consuming this repo
+- **`.agents/`** — Contributor guide for editing this repo
 
-## Usage
+## Build
 
 ```bash
 npm install
 npm run build
 ```
 
-Output files:
-- `dist/llms.txt` — Concise link index following the llms.txt standard
-- `dist/llms-full.txt` — Detailed prose reference for LLM consumption
+Output:
+- `dist/llms.txt` — Compact overview with links to resources
+- `dist/llms-full.txt` — Detailed protocol knowledge covering system design, DTF types, governance, collateral plugins, MEV, rebalancing, and API reference
+
+## Content overview
+
+### llms.txt sections
+
+| File | Topic |
+|------|-------|
+| `00-header.md` | Protocol summary |
+| `01-getting-started.md` | Onboarding links |
+| `02-rsr.md` | RSR token |
+| `03-index-dtfs.md` | Index DTFs |
+| `04-yield-dtfs.md` | Yield DTFs |
+| `05-developers.md` | Developer resources |
+| `05b-api.md` | Reserve API |
+| `06-risk.md` | Risk & governance |
+| `07-optional.md` | Optional references |
+
+### llms-full.txt sections
+
+| File | Topic |
+|------|-------|
+| `00-overview.md` | Protocol architecture |
+| `01-index-dtfs.md` | Index DTF deep dive |
+| `02-yield-dtfs.md` | Yield DTF deep dive |
+| `03-system-design.md` | Contract architecture & auctions |
+| `04-collateral-plugins.md` | Writing collateral plugins |
+| `05-mev.md` | MEV guide |
+| `06-governance-and-risk.md` | Governance parameters |
+| `07-rebalancing.md` | Rebalancing algorithm |
+| `08-api.md` | API reference (discover, swap, health) |
+
+## Contributing
+
+See [`.agents/AGENTS.md`](.agents/AGENTS.md) for content conventions, build instructions, and style guide.
