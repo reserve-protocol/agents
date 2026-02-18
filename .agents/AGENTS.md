@@ -50,6 +50,10 @@ The build enforces:
 
 If validation fails, fix the content before committing.
 
+## Content Rules
+
+- **Never hardcode DTF data** (names, symbols, basket compositions, prices, market caps). This data changes constantly and will go stale. Instead, document the API endpoints so agents can query live data themselves.
+
 ## Style Guide
 
 - Write for LLM consumption: be precise, structured, and factual
