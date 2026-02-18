@@ -29,3 +29,7 @@ Point your agent's context or system prompt at the appropriate file:
 
 - Use **llms.txt** when you need a compact overview with links to resources
 - Use **llms-full.txt** when you need detailed protocol knowledge for reasoning about Reserve contracts, governance, rebalancing, collateral plugins, or risk
+
+## Benchmarks
+
+The `.agents/benchmarks/` directory contains 10 discovery benchmark tasks that evaluate how well LLM agents find information about Reserve Protocol. Tasks range from easy (fee structure) to hard (Dutch auction mechanics, rebalancing algorithm) and are scored on correctness, completeness, navigation efficiency, and citation quality. See `.agents/benchmarks/README.md` for methodology and scoring.

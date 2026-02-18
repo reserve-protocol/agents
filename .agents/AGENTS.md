@@ -11,6 +11,11 @@ content/
 src/
   build.ts    # Build script (concat + validate)
 dist/         # Generated output (gitignored)
+.agents/
+  AGENTS.md   # This file — contributor guide
+  benchmarks/
+    README.md  # Methodology, scoring rubric, access modes
+    tasks/     # YAML task definitions (01–10)
 ```
 
 ## Build & Verify
@@ -53,6 +58,18 @@ If validation fails, fix the content before committing.
 ## Content Rules
 
 - **Never hardcode DTF data** (names, symbols, basket compositions, prices, market caps). This data changes constantly and will go stale. Instead, document the API endpoints so agents can query live data themselves.
+
+## Benchmarks
+
+The `.agents/benchmarks/` directory contains discovery benchmarks that measure how well LLM agents find information across three access modes:
+
+- **`llms_txt`** — only the concise link index (~8 KB)
+- **`llms_full_txt`** — the detailed prose reference (~50 KB)
+- **`source_repo`** — full repository checkout
+
+Each task in `benchmarks/tasks/` is a YAML file with a prompt, ground truth facts, and ideal navigation paths. See `benchmarks/README.md` for the scoring rubric and methodology.
+
+When adding or changing content, verify that benchmark source references remain valid — every `source` field in the task YAMLs should point to a real file and section heading.
 
 ## Style Guide
 

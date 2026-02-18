@@ -50,6 +50,10 @@ Output:
 | `07-rebalancing.md` | Rebalancing algorithm |
 | `08-api.md` | API reference (discover, swap, health) |
 
+## Benchmarks
+
+10 discovery benchmark tasks measuring how well LLM agents find Reserve Protocol information across access modes (`llms.txt`, `llms-full.txt`, source repo). See [`.agents/benchmarks/README.md`](.agents/benchmarks/README.md) for methodology and scoring.
+
 ## Contributing
 
 See [`.agents/AGENTS.md`](.agents/AGENTS.md) for content conventions, build instructions, and style guide.
